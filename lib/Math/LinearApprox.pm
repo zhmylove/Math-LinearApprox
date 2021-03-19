@@ -10,7 +10,7 @@ use warnings FATAL => 'all';
 use Carp;
 use Exporter 'import';
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 $VERSION =~ tr/_//d;
 
 our @EXPORT_OK = qw( linear_approx linear_approx_str );

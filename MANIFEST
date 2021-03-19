@@ -1,6 +1,5 @@
 .travis.yml
 Changes
-cov.tar
 cpanfile
 lib/Math/LinearApprox.pm
 LICENSE
