@@ -17,7 +17,9 @@ sub usage {
    --count     Number of points to be generated
    --seed      Random seed
    --spread    Height of random spread (y = +- spread / 2)
-   --step      Average step between points\n";
+   --step      Average step between points
+   --x0        Starting point on X axis"
+   . "\n";
    q();
 }
 
@@ -27,24 +29,25 @@ my $count = 10;
 my $seed;
 my $spread = 10;
 my $step = 1;
+my $x = 0;
 GetOptions (
    "A=i" => \$A,
    "B=i" => \$B,
    "count=i" => \$count,
    "seed=i" => \$seed,
-   "spread=i" => \$spread,
+   "spread=s" => \$spread,
    "step=s" => \$step,
+   "x0=s" => \$x,
 ) or die usage;
 
 die usage unless defined $A and defined $B;
 
-my $x = 0;
 my $y;
 srand($seed) if defined $seed;
 
 while ($count-- >= 0) {
    $y = $A * $x + $B;
-   $y += rand($spread) - $spread / 2;
+   $y += rand($spread) - $spread / 2 if $spread > 0;
    print "$x $y\n";
    $x += $step;
 }
