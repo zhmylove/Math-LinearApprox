@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # made by: KorG
 # Example usage:
-# ./generate_line.pl --A=8 --B=7 --step=0.3 --x0=-5.5 --count=1000000 > file
+# ./generate_line.pl -A 5 -B 8 -x0 -5 --spread 1 -c 1000000 --step 0.3 > file
 # ./LinearApprox < file
 
 use strict;
@@ -13,6 +13,7 @@ sub usage {
    --A         A coefficient
    --B         B coefficient
    --count     Number of points to be generated
+   --help      Show this message
    --seed      Random seed
    --spread    Height of random spread (y = +- spread / 2)
    --step      Average step between points
@@ -23,14 +24,16 @@ sub usage {
 
 my %opts;
 GetOptions(
-   \%opts, qw( A=s B=s count=i seed=s spread=s step=s x0=s )
+   \%opts, qw( A=s B=s count=i seed=s spread=s step=s x0=s help! )
 );
 
-# Prepare frequently used variables
-my ($spread, $step) = (0, 1);
+die usage if defined $opts{help};
 
 # Assign mandatory parameters
 my ($A, $B) = @opts{qw( A B )};
+
+# Prepare frequently used variables
+my ($spread, $step) = (0, 1);
 
 # Assign optional parameters
 $spread = $opts{spread} if defined $opts{spread};
@@ -52,9 +55,9 @@ my $count = $opts{count};
 srand($opts{seed}) if defined $opts{seed};
 
 # Stuff for deltas -- to estimate A deviation due to random spread
-my $real_delta_size = 10;
-my $real_delta_divider = int($count / $real_delta_size);
-my (@real_deltas);
+my $real_delta_size = int($count / 2) - 1;
+my $real_delta_divider = $count / 100 + $count / $real_delta_size;
+my @real_deltas;
 
 while ($count > 0) {
    $y = $A * $x + $B;
