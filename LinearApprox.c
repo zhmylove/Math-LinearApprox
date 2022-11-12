@@ -95,9 +95,8 @@ static inline result_t equation(const register model_t *M) {
 /* static inline func won't be inlined here, so the only way to do this: */
 #define add_point(M, x, y) do {         \
     if (unlikely(M->N == 0))            \
-        M->x_0 = x;                      \
-                                        \
-    if (likely(M->N != 0))              \
+        M->x_0 = x;                     \
+    else                                \
         M->delta += y - M->y_last;      \
                                         \
     M->x_last = x;                      \

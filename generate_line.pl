@@ -7,6 +7,7 @@
 use strict;
 use warnings;
 use Getopt::Long;
+use List::Util qw( sum );
 
 sub usage {
    warn "Usage: $0 <--A=NUM --B=NUM> [OPTIONS]
@@ -80,4 +81,5 @@ while ($count > 0) {
 # Print delta statistics if there was some random in data
 if ($spread > 0) {
    warn join("\n", "Real deltas: ", reverse(@real_deltas)) . "\n";
+   warn "Sum of deltas: " . sum(@real_deltas) . "\n";
 }
